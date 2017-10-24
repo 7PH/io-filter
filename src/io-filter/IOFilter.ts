@@ -41,6 +41,7 @@ export class IOFilter {
                     return false;
                 return this.filter (o[property.name], property.value as IOMaskFilter);
             }
+
         }
 
         // No error since then, the object is OK

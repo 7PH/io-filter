@@ -7,8 +7,6 @@ import { IOMaskFilterType } from './IOMaskFilterType';
 
 export class IOFilter {
 
-    constructor() { }
-
     static filter (o: any, mask: IOMaskFilter): boolean {
         // For each elements
         for (var i in mask.elements) {

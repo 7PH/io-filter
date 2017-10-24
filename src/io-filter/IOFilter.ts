@@ -2,11 +2,16 @@ import { IOMaskFilter } from './IOMaskFilter';
 import { IOMaskFilterType } from './IOMaskFilterType';
 
 
-
-
-
+/** Utilitary class.
+    * Do NOT instanciate, use IOFilter.mask(..): boolean
+    */
 export class IOFilter {
 
+    /** Wether an object 'o' matches an IOMaskFilter 'mask'.
+        * @param o Object to test
+        * @param mask Mask
+        * @return true if the object recursively matches the mask
+        */
     static filter (o: any, mask: IOMaskFilter): boolean {
         // For each elements
         for (var i in mask.elements) {

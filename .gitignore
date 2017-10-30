@@ -1,7 +1,0 @@
-dist
-.npmignore
-build.sh
-package.json
-README.md
-run.sh
-tsconfig.json

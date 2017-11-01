@@ -3,43 +3,44 @@ import { IOMaskFilterType } from './IOMaskFilterType';
 
 
 /** Utilitary class.
-    * Do NOT instanciate, use IOFilter.mask(..): boolean
+    * Use   IOFilter.filter(..): boolean
+    * or    IOFilter.mask(..): object
     */
 export class IOFilter {
 
     /** Wether an object 'o' matches an IOMaskFilter 'mask'.
-        * @param o Object to test
+        * @param object Object to test
         * @param mask Mask
         * @return true if the object recursively matches the mask
         */
-    static filter (o: any, mask: IOMaskFilter): boolean {
+    static filter (object: any, mask: IOMaskFilter): boolean {
         // For each elements
         for (var i in mask.elements) {
             let property = mask.elements[i];
 
             // Ensure 'o' is defined & the property too
-            if (typeof (o) === "undefined" || typeof (o[property.name]) === "undefined")
+            if (typeof (object) === "undefined" || typeof (object[property.name]) === "undefined")
                 return false;
 
             // Just a type check
             if (property.type === IOMaskFilterType.TYPEOF) {
-                if (typeof (o[property.name]) !== property.value)
+                if (typeof (object[property.name]) !== property.value)
                     return false;
             }
 
             // RegExp (on string)
             if (property.type === IOMaskFilterType.REGEXP) {
-                if (typeof (o[property.name]) !== "string")
+                if (typeof (object[property.name]) !== "string")
                     return false;
-                if (! ( property.value as RegExp).exec(o[property.name]))
+                if (! ( property.value as RegExp).exec(object[property.name]))
                     return false;
             }
 
             // Recursive call
             if (property.type === IOMaskFilterType.OBJECT) {
-                if (typeof (o[property.name]) !== "object")
+                if (typeof (object[property.name]) !== "object")
                     return false;
-                return this.filter (o[property.name], property.value as IOMaskFilter);
+                return this.filter (object[property.name], property.value as IOMaskFilter);
             }
 
         }

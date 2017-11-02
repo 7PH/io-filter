@@ -23,7 +23,9 @@ npm install --save io-filter
 Here's a live example of the use of io-filter in TypeScript.
 
 ```typescript
-import * as IOF from 'io-filter';
+import * as iof from './index';
+
+
 
 /** Object to test. */
 const o = {
@@ -41,31 +43,25 @@ const m = {
         {
             /** Specifying 'OBJECT' type will call a recursive check */
             name: "message",
-            type: IOF.IOMaskFilterType.OBJECT,
+            type: iof.CheckType.OBJECT,
             value: {
                 elements: [
                     {
                         /* valid because message.from is a string AND matches the RegExp */
                         name: "from",
-                        type: IOF.IOMaskFilterType.REGEXP,
-                        value: /^[a-zA-Z0-9]{2,20}$/
-                    },
-                    {
-                        /* valid because message.to is a string AND matches the RegExp */
-                        name: "to",
-                        type: IOF.IOMaskFilterType.REGEXP,
+                        type: iof.CheckType.REGEXP,
                         value: /^[a-zA-Z0-9]{2,20}$/
                     },
                     {
                         /* valid, because message.content is a string */
                         name: "content",
-                        type: IOF.IOMaskFilterType.TYPEOF,
+                        type: iof.CheckType.TYPEOF,
                         value: "string"
                     },
                     {
                         /** Won't work, the type is not valid */
                         name: "time",
-                        type: IOF.IOMaskFilterType.TYPEOF,
+                        type: iof.CheckType.TYPEOF,
                         value: "string"
                     },
                 ]
@@ -74,10 +70,12 @@ const m = {
     ]
 }
 
-// Will return 'false' since the message.time type is incorrect
-console.log(IOF.IOFilter.filter(o, m));
+// Will return 'undefined' since the message.time type is incorrect
+console.log(iof.Filter.mask(o, m));
 
-// Will return 'true'
-m.elements[0].value.elements[3].value = "number";
-console.log(IOF.IOFilter.filter(o, m));
+// Will return :
+// { message: { from: 'PurpleHat', content: 'Bar', time: 82947924 } }
+m.elements[0].value.elements[2].value = "number";
+console.log(iof.Filter.mask(o, m));
+
 ```

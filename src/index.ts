@@ -1,3 +1,3 @@
-export * from './io-filter/IOFilter';
-export * from './io-filter/IOMaskFilter';
-export * from './io-filter/IOMaskFilterType';
+export * from './io-filter/Filter';
+export * from './io-filter/MaskFilter';
+export * from './io-filter/CheckType';

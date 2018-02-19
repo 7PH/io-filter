@@ -7,6 +7,7 @@ It provides a way to :
 - [X] Ensure that an object matches a specified filter (data is set)
 - [X] Verify properties on basic types (regexp, number intervals) (data is valid)
 - [X] Omit unwanted properties (for socket communications, if you have to pass data from one client to another, you can ensure there is no additional fields set and only pass necessary data over the network)
+- [ ] Refactor and document code well
 
 ## Installation
 
@@ -20,7 +21,7 @@ npm install --save io-filter
 
 ## Example
 
-Here's a live example of the use of io-filter in TypeScript.
+Here's a live example using io-filter in TypeScript.
 
 ```typescript
 import {ExistsFilter, NumberFilter, ObjectFilter, RegExpFilter, ValueTypeFilter} from "io-filter";

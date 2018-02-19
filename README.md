@@ -1,12 +1,11 @@
 # (io-filter) IO Filter
 
 Library for runtime-checking types in TypeScript.
-In some cases, type-checking can not be used in TypeScript (for instance when data arrives from a WebSocket connection through JSON.parse/JSON.stringify).
 This library provides a way to ensure that data match a specified mask.
+It provides a way to :
 
-This libary is used in my PH-Web-Socket project.
-
-@see PH-Web-Socket
+- [X] Ensure that an object matches a specified filter
+- [X] Filter an object with a filter to omit unwanted properties (e.g. for socket communications, if you have to pass data from one client to another, you can ensure there is no additional fields set)
 
 ## Installation
 
@@ -23,59 +22,95 @@ npm install --save io-filter
 Here's a live example of the use of io-filter in TypeScript.
 
 ```typescript
-import * as iof from './index';
+import {ExistsFilter, NumberFilter, ObjectFilter, RegExpFilter, ValueTypeFilter} from "io-filter";
 
 
 
-/** Object to test. */
-const o = {
+const o: any = {
     message: {
-        from: "PurpleHat",
-        to: "Foo",
-        content: "Bar",
-        time: 82947924
+        testRegExp: "the string",
+        testNumber: 1000,
+        testValueType: [1, 2, 3],
+        testExists: "I exist",
+        testIgnoredValue: "I exist but will be ignored",
     }
 };
 
-/** Mask */
-const m = {
-    elements : [
-        {
-            /** Specifying 'OBJECT' type will call a recursive check */
-            name: "message",
-            type: iof.CheckType.OBJECT,
-            value: {
-                elements: [
-                    {
-                        /* valid because message.from is a string AND matches the RegExp */
-                        name: "from",
-                        type: iof.CheckType.REGEXP,
-                        value: /^[a-zA-Z0-9]{2,20}$/
-                    },
-                    {
-                        /* valid, because message.content is a string */
-                        name: "content",
-                        type: iof.CheckType.TYPEOF,
-                        value: "string"
-                    },
-                    {
-                        /** Won't work, the type is not valid */
-                        name: "time",
-                        type: iof.CheckType.TYPEOF,
-                        value: "string"
-                    },
-                ]
-            }
-        }
-    ]
-}
+let filter: ObjectFilter;
 
-// Will return 'undefined' since the message.time type is incorrect
-console.log(iof.Filter.mask(o, m));
 
-// Will return :
-// { message: { from: 'PurpleHat', content: 'Bar', time: 82947924 } }
-m.elements[0].value.elements[2].value = "number";
-console.log(iof.Filter.mask(o, m));
+/** Use case */
+filter = new ObjectFilter({
+    message: new ObjectFilter({
+        testRegExp      : new RegExpFilter(/^[a-z ]+$/),
+        testNumber      : new NumberFilter(800, 1200),
+        testValueType   : new ValueTypeFilter('object'),
+        testExists      : new ExistsFilter()
+    })
+});
+console.log("Test 1 ->", filter.mask(o));
+/*
+Will output:
+    Test 1 -> { message:
+       { testRegExp: 'the string',
+         testNumber: true,
+         testValueType: [ 1, 2, 3 ],
+         testExists: 'I exist' } }
+Note that 'testIgnoredValue' is ignored and omitted in the return value
+*/
 
+
+/** Tests results */
+/** - Value not set */
+filter = new ObjectFilter({
+    message: new ObjectFilter({
+        testRegExp      : new RegExpFilter(/^[a-z ]+$/),
+        testNumber      : new NumberFilter(800, 1200),
+        testValueType   : new ValueTypeFilter('object'),
+/*ko*/  testExistsKo    : new ExistsFilter(),
+    })
+});
+console.log("Test 2 ->", filter.mask(o));
+
+/** - Number in wrong interval */
+filter = new ObjectFilter({
+    message: new ObjectFilter({
+        testRegExp      : new RegExpFilter(/^[a-z ]+$/),
+/*ko*/  testNumber      : new NumberFilter(1001, 1008),
+        testValueType   : new ValueTypeFilter('object'),
+        testExists      : new ExistsFilter(),
+    })
+});
+console.log("Test 3 ->", filter.mask(o));
+
+/** - RegExp not matching */
+filter = new ObjectFilter({
+    message: new ObjectFilter({
+/*ko*/  testRegExp      : new RegExpFilter(/^[a-z0-9]+$/),
+        testNumber      : new NumberFilter(800, 1200),
+        testValueType   : new ValueTypeFilter('object'),
+        testExists      : new ExistsFilter(),
+    })
+});
+console.log("Test 4 ->", filter.mask(o));
+
+/** - Wrong value type */
+filter = new ObjectFilter({
+    message: new ObjectFilter({
+        testRegExp      : new RegExpFilter(/^[a-z ]+$/),
+        testNumber      : new NumberFilter(800, 1200),
+/*ko*/  testValueType   : new ValueTypeFilter('number'),
+        testExists      : new ExistsFilter(),
+    })
+});
+console.log("Test 5 ->", filter.mask(o));
+
+
+/*
+Will output:
+    Test 2 -> undefined
+    Test 3 -> undefined
+    Test 4 -> undefined
+    Test 5 -> undefined
+*/
 ```

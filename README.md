@@ -4,8 +4,9 @@ Library for runtime-checking types in TypeScript.
 This library provides a way to ensure that data match a specified mask.
 It provides a way to :
 
-- [X] Ensure that an object matches a specified filter
-- [X] Filter an object with a filter to omit unwanted properties (e.g. for socket communications, if you have to pass data from one client to another, you can ensure there is no additional fields set)
+- [X] Ensure that an object matches a specified filter (data is set)
+- [X] Verify properties on basic types (regexp, number intervals) (data is valid)
+- [X] Omit unwanted properties (for socket communications, if you have to pass data from one client to another, you can ensure there is no additional fields set and only pass necessary data over the network)
 
 ## Installation
 

@@ -1,4 +1,4 @@
-# (io-filter) IO Filter
+# IO Filter
 
 Library for runtime-checking types in TypeScript.
 This library provides a way to ensure that data match a specified mask.

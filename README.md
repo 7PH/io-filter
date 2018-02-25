@@ -7,7 +7,7 @@ It provides a way to :
 - [X] Ensure that an object matches a specified filter (data is set)
 - [X] Verify properties on basic types (regexp, number intervals) (data is valid)
 - [X] Omit unwanted properties (for socket communications, if you have to pass data from one client to another, you can ensure there is no additional fields set and only pass necessary data over the network)
-- [ ] Refactor and document code well
+- [X] Refactor and document code well
 
 ## Installation
 

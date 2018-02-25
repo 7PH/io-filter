@@ -1,4 +1,4 @@
-import {ExistsFilter, NumberFilter, ObjectFilter, RegExpFilter, ValueTypeFilter} from "./io-filter/MaskFilter";
+import {ExistsFilter, NumberFilter, ObjectFilter, RegExpFilter, ValueTypeFilter} from "./index";
 
 
 

@@ -15,5 +15,9 @@ export class ValueTypeFilter extends MaskFilter {
     public mask(object: any): any {
         return typeof object == this.type ? object : undefined;
     }
+
+    public toString(): string {
+        return 'is ' + this.type;
+    }
 }
 

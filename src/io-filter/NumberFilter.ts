@@ -18,4 +18,8 @@ export class NumberFilter extends MaskFilter {
     public mask(object: any): any {
         return typeof object == 'number' && object >= this.min && object <= this.max ? object : undefined;
     }
+
+    public toString(): string {
+        return 'e [' + this.min + ',' + this.max + ']';
+    }
 }

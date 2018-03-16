@@ -10,5 +10,7 @@ export abstract class MaskFilter {
     public test(object: any): boolean {
         return typeof this.mask(object) !== 'undefined';
     }
+
+    public abstract toString(): string;
 }
 

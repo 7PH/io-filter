@@ -22,4 +22,15 @@ export class ObjectFilter extends MaskFilter {
         }
         return filtered;
     }
+
+    public toString(): string {
+        let s: string = '{';
+        for (let key in this.elements) {
+            let filter = this.elements[key];
+            s += '"' + key + '": ' + filter.toString() + ', ';
+        }
+        s = s.substr(0, s.length - 2);
+        s += '}';
+        return s;
+    }
 }

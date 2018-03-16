@@ -24,6 +24,8 @@ filter = new ObjectFilter({
         testExists      : new ExistsFilter()
     })
 });
+console.log("toString():\n", filter.toString(), "\n");
+
 console.log("Test 1 ->", filter.mask(o));
 /*
 Will output:

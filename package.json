@@ -1,6 +1,6 @@
 {
   "name": "io-filter",
-  "version": "2.0.3",
+  "version": "2.0.5",
   "description": "Runtime-checking tool for typescript",
   "main": "./dist/src/index.js",
   "types": "./dist/src/index.d.ts",

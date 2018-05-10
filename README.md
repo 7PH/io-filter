@@ -19,6 +19,10 @@ The easiest way to install io-filter is with [`npm`][npm].
 npm install --save io-filter
 ```
 
+## Tests
+
+Tested with mocha in TypeScript. Run tests with `npm test`. You can alternatively use `mocha dist/tests/test.js` after transpiling TypeScript with `tsc`. 
+
 ## Example
 
 Here's a live example using io-filter in TypeScript.

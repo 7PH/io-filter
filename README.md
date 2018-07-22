@@ -7,8 +7,7 @@ It provides a way to :
 - [X] Ensure that an object matches a specified filter (data is set)
 - [X] Verify properties on basic types (regexp, number intervals) (data is valid)
 - [X] Omit unwanted properties (for socket communications, if you have to pass data from one client to another, you can ensure there is no additional fields set and only pass necessary data over the network)
-- [X] Cast objects with filters using custom type guards (only if you're using TypeScript)
-- [X] Refactor and document code well
+- [X] Cast objects with filters using custom type guards (for TypeScript)
 
 ## Installation
 
@@ -46,7 +45,7 @@ const o: any = {
 let filter: ObjectFilter;
 
 
-/** Use case */
+
 filter = new ObjectFilter({
     message: new ObjectFilter({
         testRegExp      : new RegExpFilter(/^[a-z ]+$/),
@@ -56,15 +55,7 @@ filter = new ObjectFilter({
     })
 });
 console.log("Test 1 ->", filter.mask(o));
-/*
-Will output:
-    Test 1 -> { message:
-       { testRegExp: 'the string',
-         testNumber: true,
-         testValueType: [ 1, 2, 3 ],
-         testExists: 'I exist' } }
-Note that 'testIgnoredValue' is ignored and omitted in the return value
-*/
+// 'testIgnoredValue' will be ignored and omitted in the returned value
 
 
 /** Tests results */
@@ -115,6 +106,11 @@ console.log("Test 5 ->", filter.mask(o));
 
 /*
 Will output:
+    Test 1 -> { message:
+       { testRegExp: 'the string',
+         testNumber: true,
+         testValueType: [ 1, 2, 3 ],
+         testExists: 'I exist' } }
     Test 2 -> undefined
     Test 3 -> undefined
     Test 4 -> undefined

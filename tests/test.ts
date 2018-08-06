@@ -11,6 +11,7 @@ describe('io-filter', function () {
                 message: {
                     testRegExp: "the string",
                     testNumber: 1000,
+                    testNumberStr: '1000',
                     testValueType: [1, 2, 3],
                     testExists: "I exist",
                     testIgnoredValue: "I exist too",
@@ -23,6 +24,7 @@ describe('io-filter', function () {
                 message: new ObjectFilter({
                     testRegExp      : new RegExpFilter(/^[a-z ]+$/),
                     testNumber      : new NumberFilter(800, 1200),
+                    testNumberStr   : new NumberFilter(800, 1200),
                     testValueType   : new ValueTypeFilter('object'),
                     testExists      : new ExistsFilter()
                 })
@@ -49,6 +51,7 @@ describe('io-filter', function () {
                 message: new ObjectFilter({
                     testRegExp      : new RegExpFilter(/^[a-z ]+$/),
                     testNumber      : new NumberFilter(800, 1200),
+                    testNumberStr   : new NumberFilter(800, 1200),
                     testValueType   : new ValueTypeFilter('object'),
                     /*ko*/  testExistsKo    : new ExistsFilter(),
                 })
@@ -65,6 +68,23 @@ describe('io-filter', function () {
                 message: new ObjectFilter({
                     testRegExp      : new RegExpFilter(/^[a-z ]+$/),
                     /*ko*/  testNumber      : new NumberFilter(1001, 1008),
+                    testNumberStr   : new NumberFilter(800, 1200),
+                    testValueType   : new ValueTypeFilter('object'),
+                    testExists      : new ExistsFilter(),
+                })
+            });
+
+            if (typeof filter.mask(this.object) !== "undefined") {
+                return done(new Error("Should have been false"));
+            }
+            done();
+        });
+
+        it('string representing number', function (done) {
+            const filter: MaskFilter = new ObjectFilter({
+                message: new ObjectFilter({
+                    testRegExp      : new RegExpFilter(/^[a-z ]+$/),
+                    /*ko*/  testNumberStr   : new NumberFilter(1001, 1008, false),
                     testValueType   : new ValueTypeFilter('object'),
                     testExists      : new ExistsFilter(),
                 })
@@ -81,6 +101,7 @@ describe('io-filter', function () {
                 message: new ObjectFilter({
                     /*ko*/  testRegExp      : new RegExpFilter(/^[a-z0-9]+$/),
                     testNumber      : new NumberFilter(800, 1200),
+                    testNumberStr   : new NumberFilter(800, 1200),
                     testValueType   : new ValueTypeFilter('object'),
                     testExists      : new ExistsFilter(),
                 })
@@ -97,6 +118,7 @@ describe('io-filter', function () {
                 message: new ObjectFilter({
                     testRegExp      : new RegExpFilter(/^[a-z ]+$/),
                     testNumber      : new NumberFilter(800, 1200),
+                    testNumberStr   : new NumberFilter(800, 1200),
                     /*ko*/  testValueType   : new ValueTypeFilter('number'),
                     testExists      : new ExistsFilter(),
                 })

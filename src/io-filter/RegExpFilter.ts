@@ -1,10 +1,12 @@
 import {MaskFilter} from "./MaskFilter";
 
 
+/**
+ * Apply a RegExp on a given string
+ */
 export class RegExpFilter extends MaskFilter {
 
-    public readonly kind: 'regexp';
-
+    /** Regexp to apply */
     public readonly regexp: RegExp;
 
     constructor(regexp: RegExp) {

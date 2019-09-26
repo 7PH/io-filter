@@ -1,9 +1,10 @@
 import {MaskFilter} from "./MaskFilter";
 
 
+/**
+ * Checks than an object is of a given type
+ */
 export class ValueTypeFilter extends MaskFilter {
-
-    public readonly kind: 'typeof';
 
     public readonly type: string;
 

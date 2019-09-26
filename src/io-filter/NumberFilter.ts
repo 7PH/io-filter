@@ -1,14 +1,24 @@
 import {MaskFilter} from "./MaskFilter";
 
 
+/**
+ * Filter that ensures an object is a number between two ranges
+ */
 export class NumberFilter extends MaskFilter {
 
-    public readonly kind: 'number';
-
+    /**
+     * Minimum expected value
+     */
     public readonly min: number;
 
+    /**
+     * Maximum expected value
+     */
     public readonly max: number;
 
+    /**
+     * Allow casting if the object is non number for flexibility
+     */
     public readonly allowCasting: boolean;
 
     constructor(min: number, max: number, allowCasting?: boolean) {

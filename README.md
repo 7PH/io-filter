@@ -1,15 +1,15 @@
-# IO Filter
+# io-filter
 
-Library for runtime-checking types for JS/TS applications, built in TypeScript.
-This library provides a way to ensure that data matches a specified mask.
+Simple to use lib to runtime-check the structure of javascript objects
+
 It provides a way to :
 
-- [X] Ensure that an object matches a specified filter (data is set)
-- [X] Verify properties on basic types (regexp, number intervals) (data is valid)
-- [X] Omit unwanted properties (for socket communications, if you have to pass data from one client to another, you can ensure there is no additional fields set and only pass necessary data over the network)
-- [X] Cast objects with filters using custom type guards (for TypeScript)
+- [X] ensure that an object matches a structure
+- [X] verify data is valid (regexp, number intervals)
+- [X] omit unwanted properties
+- [X] cast objects with filters using custom type guards for TypeScript
 
-## Installation
+## install
 
 The easiest way to install io-filter is with [`npm`][npm].
 
@@ -19,13 +19,13 @@ The easiest way to install io-filter is with [`npm`][npm].
 npm install --save io-filter
 ```
 
-## Tests
+## test
 
 Tested with mocha in TypeScript. Run tests with `npm test`. You can alternatively use `mocha dist/tests/test.js` after transpiling TypeScript with `tsc`. 
 
-## Example
+## try
 
-Here's a live example using io-filter in TypeScript.
+Here's a live example using io-filter
 
 ```typescript
 import {ExistsFilter, NumberFilter, ObjectFilter, RegExpFilter, ValueTypeFilter} from "io-filter";

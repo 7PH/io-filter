@@ -15,7 +15,7 @@ export class ValueTypeFilter extends MaskFilter {
 
     public maskObject(object: any): any {
         if (typeof object !== this.type)
-            this.failWith(object + " is not of the expected type");
+            this.failWith("Value is NOT of type " + this.type);
         return object;
     }
 

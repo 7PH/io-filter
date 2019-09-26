@@ -21,7 +21,7 @@ export abstract class MaskFilter {
                 return undefined as any;
             } else {
                 // fail if undefined value is not allowed
-                throw new Error("Object can not be undefined: Filter " + this.toString() + " failed");
+                this.failWith("Value is undefined but the optional flag is set to false");
             }
         }
         return this.maskObject<T>(object);
@@ -64,9 +64,9 @@ export abstract class MaskFilter {
      */
     protected failWith(message?: string): void {
         if (typeof message !== "undefined") {
-            throw new Error(message + ": Filter " + this.toString() + " failed");
+            throw new Error(message);
         } else {
-            throw new Error("Filter " + this.toString() + " failed");
+            throw new Error(`Filter Error: ${this.constructor.name} failed.`);
         }
     }
 

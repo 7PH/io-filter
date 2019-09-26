@@ -16,7 +16,7 @@ export class RegExpFilter extends MaskFilter {
 
     public maskObject(object: any): any {
         if (typeof object !== "string" || ! this.regexp.test(object))
-            this.failWith(object + " does not pass the RegExp");
+            this.failWith("Value does not match");
         return object;
     }
 

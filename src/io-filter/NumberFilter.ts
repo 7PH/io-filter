@@ -36,7 +36,7 @@ export class NumberFilter extends MaskFilter {
             parsed = object as number;
 
         if (isNaN(parsed) || parsed < this.min || parsed > this.max)
-            this.failWith("The given object " + object + " is not a number");
+            this.failWith("Value is not a number");
 
         return parsed;
     }

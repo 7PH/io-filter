@@ -27,7 +27,11 @@ export class ObjectFilter extends MaskFilter {
         // for each expected property
         for (let name in this.elements) {
             // apply the mask on the child property
-            filtered[name] = this.elements[name].mask(object[name]);
+            try {
+                filtered[name] = this.elements[name].mask(object[name]);
+            } catch (e) {
+                throw new Error(`Property '${name}' is invalid: ${e.message}`);
+            }
         }
         // return the filtered object
         return filtered;

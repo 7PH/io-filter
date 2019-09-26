@@ -4,16 +4,40 @@
 export abstract class MaskFilter {
 
     /**
-     * Abstract mask method that takes an object and ensures the object is valid.
-     *  If the object is valid, this function should return the filtered object.
-     *  If invalid, this function should return undefined
-     * @param object Undefined if the check fails, else the filtered object
+     * Whether the value can be undefined
      */
-    public abstract mask<T>(object: any): T | undefined;
+    protected optional: boolean = false;
 
     /**
-     * Apply this mask to a specified object
-     * @param object Undefined if the check fails, else the filtered object
+     * Mask an object
+     * @param object
+     */
+    public mask<T>(object: any): T {
+        // if the object is undefined
+        if (typeof object === "undefined") {
+            // and this is allowed
+            if (this.optional) {
+                // return undefined as a valid value
+                return undefined as any;
+            } else {
+                // fail if undefined value is not allowed
+                throw new Error("Object can not be undefined: Filter " + this.toString() + " failed");
+            }
+        }
+        return this.maskObject<T>(object);
+    };
+
+    /**
+     * Abstract mask method that takes an object and ensures the object is valid.
+     *  If the object is valid, this function should return the filtered object.
+     *  If invalid, this function should throw an error.
+     * @param object The filtered object (never undefined)
+     */
+    protected abstract maskObject<T>(object: any): T;
+
+    /**
+     * Apply this filter to a specified object
+     * @param object Object to check
      */
     public is<T>(object: any): object is T {
         return MaskFilter.is<T>(this, object);
@@ -22,10 +46,36 @@ export abstract class MaskFilter {
     /**
      * Apply a given filter to a specified object
      * @param filter Filter to apply
-     * @param object Undefined if the check fails, else the filtered object
+     * @param object Object to check
+     * @return True only if the object passes the filter
      */
     public static is<T>(filter: MaskFilter, object: any): object is T {
-        return typeof filter.mask(object) !== "undefined";
+        try {
+            filter.mask(object);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    /**
+     * Fail with a specific message
+     * @param message
+     */
+    protected failWith(message?: string): void {
+        if (typeof message !== "undefined") {
+            throw new Error(message + ": Filter " + this.toString() + " failed");
+        } else {
+            throw new Error("Filter " + this.toString() + " failed");
+        }
+    }
+
+    /**
+     * Set this MaskFilter as optional
+     */
+    public asOptional(): MaskFilter {
+        this.optional = true;
+        return this;
     }
 
     /**

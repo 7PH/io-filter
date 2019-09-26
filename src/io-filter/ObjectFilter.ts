@@ -18,22 +18,16 @@ export class ObjectFilter extends MaskFilter {
         this.elements = elements;
     }
 
-    public mask(object: any): any {
+    public maskObject(object: any): any {
         // if the object is null
         if (object == null)
-            return undefined;
+            this.failWith("Object is null");
         // prepare the resulting filtered object
         let filtered: any = {};
         // for each expected property
         for (let name in this.elements) {
-            // if the property is not set
-            if (typeof object[name] === 'undefined')
-                return undefined;
             // apply the mask on the child property
             filtered[name] = this.elements[name].mask(object[name]);
-            // if the property fails the filter
-            if (typeof filtered[name] === 'undefined')
-                return undefined;
         }
         // return the filtered object
         return filtered;

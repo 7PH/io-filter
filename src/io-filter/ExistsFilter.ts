@@ -6,8 +6,8 @@ import {MaskFilter} from "./MaskFilter";
  */
 export class ExistsFilter extends MaskFilter {
 
-    public mask(object: any): any {
-        return typeof object !== 'undefined' ? object : undefined;
+    public maskObject(object: any): any {
+        return object;
     }
 
     public toString(): string {

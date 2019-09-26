@@ -13,8 +13,10 @@ export class ValueTypeFilter extends MaskFilter {
         this.type = type;
     }
 
-    public mask(object: any): any {
-        return typeof object == this.type ? object : undefined;
+    public maskObject(object: any): any {
+        if (typeof object !== this.type)
+            this.failWith(object + " is not of the expected type");
+        return object;
     }
 
     public toString(): string {

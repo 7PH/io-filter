@@ -28,7 +28,7 @@ export class NumberFilter extends MaskFilter {
         this.allowCasting = typeof allowCasting === 'undefined' || allowCasting;
     }
 
-    public mask(object: any): any {
+    public maskObject(object: any): any {
         let parsed: number = NaN;
         if (this.allowCasting && typeof object === 'string')
             parsed = parseFloat(object);
@@ -36,7 +36,7 @@ export class NumberFilter extends MaskFilter {
             parsed = object as number;
 
         if (isNaN(parsed) || parsed < this.min || parsed > this.max)
-            return;
+            this.failWith("The given object " + object + " is not a number");
 
         return parsed;
     }

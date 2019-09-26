@@ -14,8 +14,10 @@ export class RegExpFilter extends MaskFilter {
         this.regexp = regexp;
     }
 
-    public mask(object: any): any {
-        return typeof object == 'string' && this.regexp.test(object) ? object as string : undefined;
+    public maskObject(object: any): any {
+        if (typeof object !== "string" || ! this.regexp.test(object))
+            this.failWith(object + " does not pass the RegExp");
+        return object;
     }
 
     public toString(): string {

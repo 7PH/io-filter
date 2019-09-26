@@ -1,4 +1,5 @@
 import {ExistsFilter, MaskFilter, NumberFilter, ObjectFilter, RegExpFilter, ValueTypeFilter} from "../src";
+import {EmailFilter} from "../src/io-filter/EmailFilter";
 
 describe('io-filter', function () {
 
@@ -88,6 +89,23 @@ describe('io-filter', function () {
                 for (let value of values)
                     if (typeof new ValueTypeFilter('number').mask(value) === "undefined")
                         throw new Error("Value " + value + " should fail");
+            });
+        });
+
+        describe('# EmailFilter', function () {
+
+            it('should fail with non-emails', async function() {
+                let values = ['foo@bar', undefined, null, 12, NaN, 'aa@bb cc.fr', 'http://foo.bar'];
+                for (let value of values)
+                    if (typeof new EmailFilter().mask(value) !== "undefined")
+                        throw new Error("Value " + value + " should fail");
+            });
+
+            it('should work with emails', async function() {
+                let values = ['foo@bar.bar', 'foo.bar_bar_00@gmail.com'];
+                for (let value of values)
+                    if (typeof new EmailFilter().mask(value) === "undefined")
+                        throw new Error("Value " + value + " should NOT fail");
             });
         });
 
